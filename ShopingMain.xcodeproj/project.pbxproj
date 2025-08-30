@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		01974C0C2E60D67600779294 /* ShoppingListModule in Frameworks */ = {isa = PBXBuildFile; productRef = 01974C0B2E60D67600779294 /* ShoppingListModule */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		01974BED2E60D60700779294 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -56,7 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01974C0C2E60D67600779294 /* ShoppingListModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,7 +120,6 @@
 			);
 			name = ShopingMain;
 			packageProductDependencies = (
-				01974C0B2E60D67600779294 /* ShoppingListModule */,
 			);
 			productName = ShopingMain;
 			productReference = 01974BDF2E60D60400779294 /* ShopingMain.app */;
@@ -210,7 +204,7 @@
 			mainGroup = 01974BD62E60D60400779294;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				01974C092E60D66D00779294 /* XCLocalSwiftPackageReference "ShoppingListModule" */,
+				010202992E635AF200999EBF /* XCLocalSwiftPackageReference "ShoppingListModule" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 01974BE02E60D60400779294 /* Products */;
@@ -412,6 +406,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = E9D25VGRG3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -439,6 +434,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = E9D25VGRG3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -569,19 +565,11 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		01974C092E60D66D00779294 /* XCLocalSwiftPackageReference "ShoppingListModule" */ = {
+		010202992E635AF200999EBF /* XCLocalSwiftPackageReference "ShoppingListModule" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ShoppingListModule;
 		};
 /* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		01974C0B2E60D67600779294 /* ShoppingListModule */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 01974C092E60D66D00779294 /* XCLocalSwiftPackageReference "ShoppingListModule" */;
-			productName = ShoppingListModule;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 01974BD72E60D60400779294 /* Project object */;
 }

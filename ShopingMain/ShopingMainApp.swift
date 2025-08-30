@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import ShoppingListModule
 
 @main
 struct ShopingMainApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            //ContentView()
         }
     }
 }
