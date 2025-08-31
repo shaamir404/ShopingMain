@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0102029B2E648BF300999EBF /* ShoppingListModule in Frameworks */ = {isa = PBXBuildFile; productRef = 0102029A2E648BF300999EBF /* ShoppingListModule */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		01974BED2E60D60700779294 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0102029B2E648BF300999EBF /* ShoppingListModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +125,7 @@
 			);
 			name = ShopingMain;
 			packageProductDependencies = (
+				0102029A2E648BF300999EBF /* ShoppingListModule */,
 			);
 			productName = ShopingMain;
 			productReference = 01974BDF2E60D60400779294 /* ShopingMain.app */;
@@ -570,6 +576,14 @@
 			relativePath = ShoppingListModule;
 		};
 /* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0102029A2E648BF300999EBF /* ShoppingListModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 010202992E635AF200999EBF /* XCLocalSwiftPackageReference "ShoppingListModule" */;
+			productName = ShoppingListModule;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 01974BD72E60D60400779294 /* Project object */;
 }

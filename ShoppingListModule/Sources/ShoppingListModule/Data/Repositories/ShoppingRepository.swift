@@ -13,7 +13,7 @@ public final class ShoppingRepository: ShoppingRepositoryProtocol {
     private let modelContext: ModelContext
     private let syncService: SyncServiceProtocol
     
-    public init(modelContext: ModelContext, syncService: SyncServiceProtocol) {
+     init(modelContext: ModelContext, syncService: SyncServiceProtocol) {
         self.modelContext = modelContext
         self.syncService = syncService
     }
@@ -25,7 +25,22 @@ public final class ShoppingRepository: ShoppingRepositoryProtocol {
             let descriptor = self.buildFetchDescriptor(filter: filter, searchText: searchText, sortBy: sortBy)
             
             do {
-                let persistentItems = try self.modelContext.fetch(descriptor)
+                var persistentItems = try self.modelContext.fetch(descriptor)
+                
+                // Apply additional filtering in memory
+                if filter != .all {
+                    let isBoughtFilter = filter == .bought
+                    persistentItems = persistentItems.filter { $0.isBought == isBoughtFilter }
+                }
+                
+                // Apply search in memory
+                if !searchText.isEmpty {
+                    persistentItems = persistentItems.filter { item in
+                        item.name.localizedCaseInsensitiveContains(searchText) ||
+                        (item.note != nil && item.note!.localizedCaseInsensitiveContains(searchText))
+                    }
+                }
+                
                 let items = persistentItems.map { $0.toDomain() }
                 promise(.success(items))
             } catch {
@@ -67,7 +82,7 @@ public final class ShoppingRepository: ShoppingRepositoryProtocol {
                     existingItem.note = item.note
                     existingItem.isBought = item.isBought
                     existingItem.updatedAt = Date()
-                    existingItem.syncStatus = .pendingUpdate
+                    existingItem.syncStatus = PersistentShoppingItem.SyncStatus.pendingUpdate.rawValue
                     
                     try self.modelContext.save()
                     promise(.success(()))
@@ -92,7 +107,7 @@ public final class ShoppingRepository: ShoppingRepositoryProtocol {
             do {
                 if let existingItem = try self.modelContext.fetch(descriptor).first {
                     // For offline-first, mark for deletion instead of immediate removal
-                    existingItem.syncStatus = .pendingDelete
+                    existingItem.syncStatus = PersistentShoppingItem.SyncStatus.pendingDelete.rawValue
                     try self.modelContext.save()
                     promise(.success(()))
                 } else {
@@ -110,39 +125,12 @@ public final class ShoppingRepository: ShoppingRepositoryProtocol {
     }
     
     private func buildFetchDescriptor(filter: ShoppingListFilter, searchText: String, sortBy: ShoppingListSort) -> FetchDescriptor<PersistentShoppingItem> {
-        // Build predicate based on filter and search text
-        var predicate: Predicate<PersistentShoppingItem>?
-        
-        if !searchText.isEmpty {
-            predicate = #Predicate { item in
-                item.name.localizedStandardContains(searchText) ||
-                (item.note != nil && item.note!.localizedStandardContains(searchText))
+        // Simple predicate - just exclude pending delete items
+        let pendingDeleteRawValue = PersistentShoppingItem.SyncStatus.pendingDelete.rawValue
+            
+            let predicate = #Predicate<PersistentShoppingItem> { item in
+                item.syncStatus != pendingDeleteRawValue
             }
-        }
-        
-        if filter != .all {
-            let isBoughtFilter = filter == .bought
-            if let existingPredicate = predicate {
-                predicate = #Predicate { item in
-                    existingPredicate.evaluate(item) && item.isBought == isBoughtFilter
-                }
-            } else {
-                predicate = #Predicate { item in
-                    item.isBought == isBoughtFilter
-                }
-            }
-        }
-        
-        // Exclude items marked for deletion
-        if let existingPredicate = predicate {
-            predicate = #Predicate { item in
-                existingPredicate.evaluate(item) && item.syncStatus != .pendingDelete
-            }
-        } else {
-            predicate = #Predicate { item in
-                item.syncStatus != .pendingDelete
-            }
-        }
         
         // Build sort descriptors
         var sortDescriptors: [SortDescriptor<PersistentShoppingItem>] = []

@@ -17,10 +17,10 @@ final class PersistentShoppingItem {
     var isBought: Bool
     var createdAt: Date
     var updatedAt: Date
-    var syncStatus: SyncStatus
+    var syncStatus: Int  // Store as Int
     
     enum SyncStatus: Int, Codable {
-        case synced, pendingCreate, pendingUpdate, pendingDelete
+        case synced = 0, pendingCreate = 1, pendingUpdate = 2, pendingDelete = 3
     }
     
     init(id: UUID = UUID(),
@@ -31,6 +31,8 @@ final class PersistentShoppingItem {
          createdAt: Date = Date(),
          updatedAt: Date = Date(),
          syncStatus: SyncStatus = .pendingCreate) {
+        
+        // Initialize ALL stored properties
         self.id = id
         self.name = name
         self.quantity = quantity
@@ -38,7 +40,17 @@ final class PersistentShoppingItem {
         self.isBought = isBought
         self.createdAt = createdAt
         self.updatedAt = updatedAt
-        self.syncStatus = syncStatus
+        self.syncStatus = syncStatus.rawValue  // Don't forget this line!
+    }
+    
+    // Helper to get enum from raw value
+    func getSyncStatus() -> SyncStatus {
+        return SyncStatus(rawValue: syncStatus) ?? .pendingCreate
+    }
+    
+    // Helper to set enum from raw value
+    func setSyncStatus(_ status: SyncStatus) {
+        syncStatus = status.rawValue
     }
     
     convenience init(from item: ShoppingItem, syncStatus: SyncStatus = .pendingCreate) {
@@ -50,7 +62,7 @@ final class PersistentShoppingItem {
             isBought: item.isBought,
             createdAt: item.createdAt,
             updatedAt: item.updatedAt,
-            syncStatus: syncStatus
+            syncStatus: syncStatus  // This will be converted to rawValue in the main init
         )
     }
     
