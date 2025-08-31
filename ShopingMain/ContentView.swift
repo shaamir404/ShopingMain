@@ -6,16 +6,15 @@
 //
 
 import SwiftUI
+import ShoppingListModule
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        Text("My App")
+            .onAppear {
+                
+                print("ShoppingListModule is available!")
+            }
     }
 }
 
